@@ -1,41 +1,33 @@
+import React, { useState, useEffect } from "react";
 import Head from "next/head";
-
+import Header from "../components/Header";
+import Banner from "../components/Banner";
+import axios from "axios";
+import Products from "../components/Products";
 export default function Home() {
+  const [todos, setTodos] = useState();
+  useEffect(() => {
+    axios.get(`https://fakestoreapi.com/products/`).then((res) =>{
+      const response = res.data;
+      setTodos(response);
+      console.log(response)
+    });
+  },[])
   return (
     <div>
       <Head>
         <title>Amazon 2.0</title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
       </Head>
-
-      {/* ---- TO BEGIN, delete this section and GET CODING!!! ---- */}
-      <center className="grid place-items-center mt-10">
-        <h1 className="text-5xl">Lets build Amazon 2.0</h1>
-        <h2>This is your starter template!</h2>
-        <br />
-        <h3 className="font-bold">
-          We will be using Next.js / Tailwind CSS / Redux / Firebase / NextAuth
-        </h3>
-        <i>(Dont worry, its all setup and ready to use!)</i>
-        <h4>Get Ready, Get Set, GO!!!</h4>
-
-        <h5 className="mb-10">#PAPAFAM</h5>
-
-        <div className="bg-red-300 p-10">
-          <p className="font-bold">
-            Dont forget to register for the challenge here!
-          </p>
-          <p>👇👇👇</p>
-          <a
-            href="https://www.papareact.com/secret-challenge"
-            className="text-blue-400 underline p-3 font-bold"
-          >
-            CLICK HERE TO REGISTER NOW
-          </a>
-        </div>
-
-        <p className="mt-24">Built with 💙 by Sonny Sangha (PAPA REACT)</p>
-      </center>
-      {/* ---- ---- */}
+      <Header />
+      <Banner 
+      image="https://images.pexels.com/photos/2441454/pexels-photo-2441454.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500"
+      />
+      <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+      {todos && todos.map(todo =>
+        <Products title={todo.title} price={todo.price} image={todo.image} rating={5} description={todo.description} category={todo.category}/>
+      )}
+      </div>
     </div>
   );
 }

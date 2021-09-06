@@ -1,24 +1,41 @@
-import React from 'react'
+import React, { useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux';
+import { addToBasket } from '../slices/basketSlice';
+import Currency from "react-currency-formatter";
+import Image from "next/image";
 function Products(props) {
-    const {title, price, image, rating, description, category} = props;
+    const {id, title, price, image, description, category} = props;
+    const MIN_RATING = 1;
+    const MAX_RATING = 5;
+    const dispatch = useDispatch();
+    const [rating] = useState(
+        Math.floor(Math.random() * (MAX_RATING - MIN_RATING + 1)) + MIN_RATING);
+    const addToCart = () => {
+        const product = {
+            props,
+        };
+        dispatch(addToBasket(product))
+    }
     return (
-        <div className="relative flex flex-col m-5 p-2 bg-white space-y-2 border">
-            <h4 className="text-gray-400">{category}</h4>
-            <img className="w-[200px] sm:w-[300px] m-auto" src={image} alt="" />
-            <h3 className="text-lg text-center">{title}</h3>
-            <div className="flex justify-center">
+        <div className="relative flex flex-col m-5  z-30 p-10 bg-white">
+            <p className="absolute top-2 right-2 text-xs italic text-gray-400">{category}</p>
+            <Image src={image} height={200} width={200} objectfit="contain"/>
+            <h4 className="my-3">{title}</h4>
+            <div className="flex">
             {Array(rating)
             .fill()
             .map(() => (
-                    <i className="fas fa-star text-yellow-500 "></i>
+                    <i className="fas fa-star text-yellow-500"></i>
             ))
             }
             </div>
-            <p className="px-2">{description}</p>
-            <strong className="flex justify-center">{price}$</strong>
-            <button className="bg-yellow-300 py-2 px-10 rounded-xl font-bold text-sm sm:text-lg grid m-auto hover:bg-black hover:text-white transform transition duration-200">add to cart</button>
+            <p className="text-xs my-2 line-clamp-2">{description}</p>
+            <div className="mb-5">
+                <Currency quantity={price} currency="USD"/>
+            </div>
+            <button onClick={addToCart} className="mt-auto button">add to cart</button>
         </div>
     )
 }
 
-export default Products
+export default Products;

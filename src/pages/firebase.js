@@ -1,17 +1,12 @@
 import firebase from "firebase";
-import { defaultConfig } from "next/dist/server/config-shared";
-
 const firebaseConfig = {
-  apiKey: "AIzaSyAwKEGp21d3gFFeZc49-zHLYweaWHgpxFs",
-  authDomain: "clone-d5204.firebaseapp.com",
-  projectId: "clone-d5204",
-  storageBucket: "clone-d5204.appspot.com",
-  messagingSenderId: "183245690970",
-  appId: "1:183245690970:web:547c9aab4b1eac53906063",
-  measurementId: "G-0YZLZTC27R"
+  apiKey: "AIzaSyCKvT8JhAcflOThchIl2OOloGg_QRkDuk8",
+  authDomain: "nextjs-a6365.firebaseapp.com",
+  projectId: "nextjs-a6365",
+  storageBucket: "nextjs-a6365.appspot.com",
+  messagingSenderId: "921010365847",
+  appId: "1:921010365847:web:eb209b60d9e1eac90f10d2"
 };
-if(!firebase.apps.length) {
-firebase.initializeApp(firebaseConfig);
-};
-
-export default firebase;
+const app = !firebase.apps.length ? firebase.initializeApp(firebaseConfig) : firebase.app();
+const auth = app.auth();
+export default auth;

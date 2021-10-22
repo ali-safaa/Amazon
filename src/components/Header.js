@@ -1,10 +1,12 @@
 import React from 'react'
 import { useRouter } from "next/router";
+import { signIn, signOut, useSession } from 'next-auth/react'
 import { selectItems } from '../slices/basketSlice';
 import { useSelector } from 'react-redux';
 function Header() {
     const router = useRouter();
     const items = useSelector(selectItems);
+    const {data:session} = useSession();
     return (
         <header>
             <div className="flex items-center bg-amazon_blue p-1 flex-grow py-2">
@@ -15,8 +17,8 @@ function Header() {
                     <i className="fas fa-search p-2 link"></i>
                 </div>
                 </div>
-                <div onClick={() => router.push('/login')} className="text-white">
-                    <p className="text-xs font-bold link">hello, signup</p>
+                <div onClick={() => router.push('/auth/signin')} className="text-white">
+                    <p onClick={!session ? signIn : signOut} className="text-xs font-bold link">{session? `Hello, ${session && session.user?.name}` : "Sign in"}</p>
                     <p className="text-xs cursor-pointer">accounts and terms</p>
                 </div>
                 <div onClick={() => router.push('/checkout')} className="px-2 cursor-pointer">

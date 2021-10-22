@@ -5,11 +5,14 @@ import { useSelector } from 'react-redux'
 import { selectItems, TotalItems,  } from '../slices/basketSlice';
 import CheckoutProduct from '../components/CheckoutProduct';
 import Currency from "react-currency-formatter";
+import { useSession } from 'next-auth/react';
 // import { loadStripe } from '@stripe/stripe-js';
 
 function Checkout() {
     const items = useSelector(selectItems);
-        const total = useSelector(TotalItems)
+    const total = useSelector(TotalItems);
+    const {data:session} = useSession();
+
     // const stripePromise = loadStripe(process.env.stripe_public_key);
     // const createCheckoutSession = async () => {
     //     const stripe = await stripePromise
@@ -40,8 +43,14 @@ function Checkout() {
                 <div>
                     {items.length > 0 && (
                         <>
-                    <h1 className="font-bold">{`Subtotal (item ${items.length})`}</h1>
+                    <h1>{`Subtotal (${items.length} items)`}
+                    <span className="font-bold">
                     <Currency quantity={total} currency="USD"/>
+                    </span>
+                    </h1>
+                    <button>
+                        {!session ? "sign in to checkout" : "proced to checkout"}
+                    </button>
                         </>
                     )}
                 </div>

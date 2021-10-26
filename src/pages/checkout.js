@@ -2,15 +2,15 @@ import React from 'react'
 import Header from '../components/Header'
 import Head from 'next/head'
 import { useSelector } from 'react-redux'
-import { selectItems, TotalItems,  } from '../slices/basketSlice';
+import { selectItems } from '../slices/basketSlice';
 import CheckoutProduct from '../components/CheckoutProduct';
-import Currency from "react-currency-formatter";
+import CurrencyFormat from 'react-currency-format';
 import { useSession } from 'next-auth/react';
+import { getBasketTotal } from "../slices/basketSlice"
 // import { loadStripe } from '@stripe/stripe-js';
 
 function Checkout() {
     const items = useSelector(selectItems);
-    const total = useSelector(TotalItems);
     const {data:session} = useSession();
 
     // const stripePromise = loadStripe(process.env.stripe_public_key);
@@ -18,7 +18,7 @@ function Checkout() {
     //     const stripe = await stripePromise
     // }
     return (
-        <div className="bg-gray-100">
+        <div className="bg-gray-100 max-w-screen-2xl mx-auto">
             <Head>
                 <title>checkout</title>
                 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
@@ -27,9 +27,8 @@ function Checkout() {
                  <h1 className="text-2xl font-bold ml-2 border-b-2 pb-1">{items.length === 0 ? "Your shopping is empty" : "Your shopping cart"}</h1>
                  <p className="text-gray-400 font-bold pl-3">{items.length === 0 ? "You dont have any products" : "Your products here"}</p>
                 {items && items.map((item) => (
-                    <div className="flex flex-col">
+                    <div key={item.props.id} className="flex flex-col">
                     <CheckoutProduct
-                    key={item.props.id}
                     category={item.props.category}
                     image={item.props.image}
                     title={item.props.title}
@@ -40,19 +39,21 @@ function Checkout() {
                     </div>
                     )
                 )}
-                <div>
-                    {items.length > 0 && (
+                <div className="flex flex-col bg-white p-10">
+                    <CurrencyFormat renderText={(value) => 
                         <>
-                    <h1>{`Subtotal (${items.length} items)`}
-                    <span className="font-bold">
-                    <Currency quantity={total} currency="USD"/>
-                    </span>
-                    </h1>
-                    <button>
-                        {!session ? "sign in to checkout" : "proced to checkout"}
-                    </button>
+                        <p>
+                          subtotal ({`${items.length}`} items)  <strong>{value}</strong>
+                        </p>
                         </>
-                    )}
+                    }
+                    decimalScale={2}
+                    value={getBasketTotal(items)}
+                    displayType={"text"}
+                    thousandSeparator={true}
+                    prefix={"$"}
+                    />
+                    <button></button>
                 </div>
         </div>
     )

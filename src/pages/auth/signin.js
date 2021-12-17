@@ -13,7 +13,7 @@ function signIn({ providers }) {
       {Object.values(providers).map((provider) => (
         <div key={provider.name}>
           <img className="w-[150px] sm:w-[200px] m-auto my-20" src="https://logos-download.com/wp-content/uploads/2016/03/Amazon_Logo_2000.png" alt="logo" />
-          <p className="my-3 text-gray-400">Sign in to buy somthing to yourself</p>
+          <p className="my-3 text-gray-400 font-bold">Sign in to buy somthing you liked</p>
           <button className="bg-blue-500 text-white hover:bg-black px-5 py-2" onClick={() => signIntoProvider(provider.id, {callbackUrl: '/'})}>
             Sign in with {provider.name}
           </button>

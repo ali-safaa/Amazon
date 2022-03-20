@@ -7,6 +7,6 @@
     @apply cursor-pointer;
   }
   .button {
-    @apply rounded-md py-3 sm:px-3 font-bold text-xs bg-yellow-300 hover:text-white hover:bg-black duration-300;
+    @apply rounded-md py-3 font-semibold text-sm w-max px-10 mx-auto bg-yellow-300 hover:text-white hover:bg-black duration-300;
   }
 }

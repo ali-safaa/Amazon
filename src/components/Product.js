@@ -1,8 +1,8 @@
-import Image from "next/image";
-import { useState } from "react";
-import ReactCurrencyFormatter from "react-currency-formatter";
-import { useDispatch } from "react-redux";
-import { addToBasket } from "../slices/basketSlice";
+import Image from 'next/image';
+import { useState } from 'react';
+import ReactCurrencyFormatter from 'react-currency-formatter';
+import { useDispatch } from 'react-redux';
+import { addToBasket } from '../slices/basketSlice';
 const MAX_RATING = 5;
 const MIN_RATING = 1;
 
@@ -29,12 +29,18 @@ function Product({ id, title, price, description, category, image }) {
     dispatch(addToBasket(product));
   };
   return (
-    <div className="relative flex flex-col m-5 bg-white z-30 p-10">
+    <div className="flex flex-col my-3 mx-3 relative shadow-sm bg-white py-5 px-5">
       <p className="absolute top-2 right-2 text-xs italic text-gray-400">
         {category}
       </p>
       <Image src={image} height={200} width={200} objectFit="contain" />
-      <h4 className="mt-3">{title}</h4>
+      <h4 className="mt-3 font-semibold">{title}</h4>
+      <div className="mt-3 font-semibold text-sm text-gray-500">
+        <ReactCurrencyFormatter quantity={price} currency="USD" />
+      </div>
+      <p className="mt-3 text-xs md:text-sm text-gray-500 line-clamp-3">
+        {description}
+      </p>
       <div>
         {Array(rating)
           .fill()
@@ -42,16 +48,10 @@ function Product({ id, title, price, description, category, image }) {
             <i className="fas fa-star mt-3 text-yellow-500"></i>
           ))}
       </div>
-      <p className="mt-3 text-sm line-clamp-3">{description}</p>
-      <div className="mt-3 font-bold">
-        <ReactCurrencyFormatter quantity={price} currency="USD" />
-      </div>
       {hasPrime && (
-        <p className="mt-1 bg-blue-400 w-max px-3 py-2 text-white font-bold">
-          has Prime
-        </p>
+        <p className="text-black font-semibold text-sm my-3">has Prime</p>
       )}
-      <button onClick={addItemsToBasket} className="mt-3 button">
+      <button onClick={addItemsToBasket} className="button">
         Add To Cart
       </button>
     </div>

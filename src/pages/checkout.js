@@ -23,11 +23,11 @@ function checkout() {
       <Header />
       <div className="bg-white pb-3">
         <h1 className="font-semibold text-sm sm:text-lg text-gray-400 ml-7 pt-5">
-          {items.length === 0
+          {items?.length === 0
             ? 'Your Shopping Basket Is Empty.'
             : 'Your Shopping Cart.'}
         </h1>
-        {items.map((item, i) => (
+        {items?.map((item, i) => (
           <CheckoutProducts
             key={i}
             id={item.id}
@@ -41,7 +41,7 @@ function checkout() {
         ))}
       </div>
       <div>
-        {items.length > 0 && (
+        {items?.length > 0 && (
           <>
             <p className="mt-5 ml-5 font-semibold text-gray-500">
               {items.length} : items

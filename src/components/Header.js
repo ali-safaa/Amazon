@@ -20,7 +20,7 @@ function Header() {
             src="https://snipstock.com/assets/cdn/png/3b87a86d107d21733d3fc33443aa0e40.png"
             alt="logo"
           />
-          <div className="flex-grow flex items-center mx-3 bg-white rounded-md">
+          <div className="md:flex-grow flex items-center mx-3 bg-white rounded-md">
             <input
               className="py-1 bg-transparent outline-none flex-grow"
               type="text"
@@ -35,14 +35,15 @@ function Header() {
           >
             {session ? `Hello, ${session && session.user?.name}` : 'Sign in'}
           </p>
-          <p className="text-xs cursor-pointer">accounts and terms</p>
         </div>
         <div
           onClick={() => router.push('/checkout')}
           className="px-2 cursor-pointer"
         >
           <i className="fas fa-shopping-cart text-white text-xl sm:text-3xl"></i>
-          <span className="text-white pl-1">{items.length}</span>
+          {items?.length && (
+            <span className="text-white ml-1">{items?.length}</span>
+          )}
         </div>
       </div>
     </header>

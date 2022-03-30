@@ -24,35 +24,30 @@ function CheckoutProducts({
     dispatch(removeFromBasket({ id }));
   };
   return (
-    <div className="grid items-center md:flex">
+    <div className="grid items-center md:flex md:justify-between">
       <img
         className="w-[100px] sm:w-[200px] mx-auto my-3"
         src={image}
         alt="product"
       />
-      <h4 className="ml-5 font-semibold sm:text-lg">{title}</h4>
-      <p className="ml-3 mt-2 text-xs w-[400px] text-center sm:text-sm line-clamp-2">
-        {description}
-      </p>
-      <div className="flex items-center justify-center text-xs sm:text-sm ml-3 my-3 text-yellow-400">
-        {Array(rating)
-          .fill()
-          .map((_, i) => (
-            <i className="fas fa-star"></i>
-          ))}
-      </div>
-      <h4 className="ml-3 text-center font-semibold text-xs sm:text-sm">
-        <ReactCurrencyFormatter quantity={price} currency="USD" />
-      </h4>
-      {hasPrime && (
-        <p className="ml-3 text-xs mt-2 text-blue-400 font-semibold text-center">
-          has prime
+      <div>
+        <h4 className="ml-5 font-semibold sm:text-lg text-center">{title}</h4>
+        <p className="ml-3 mt-2 text-xs w-[400px] sm:text-sm line-clamp-2">
+          {description}
         </p>
-      )}
-      <button
-        onClick={removeItemsFromBasket}
-        className="text-xs md:text-sm button"
-      >
+        <div className="flex items-center justify-center text-xs sm:text-sm ml-3 my-3 text-yellow-400">
+          {Array(rating)
+            .fill()
+            .map((_, i) => (
+              <i className="fas fa-star"></i>
+            ))}
+        </div>
+        <h4 className="ml-3 text-center font-semibold text-xs sm:text-sm">
+          <ReactCurrencyFormatter quantity={price} currency="USD" />
+        </h4>
+        {hasPrime && <p className="ml-3 mt-2 text-sm text-center">has prime</p>}
+      </div>
+      <button onClick={removeItemsFromBasket} className="button">
         Remove From Cart
       </button>
     </div>

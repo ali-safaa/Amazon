@@ -6,11 +6,26 @@ import { useSelector } from 'react-redux';
 import CheckoutProducts from '../components/CheckoutProducts';
 import Header from '../components/Header';
 import { selectItems, selectTotal } from '../slices/basketSlice';
+import { loadStripe } from '@stripe/stripe-js';
+import axios from 'axios';
 
+const stripePromise = loadStripe(process.env.stripe_publice_key);
 function checkout() {
   const items = useSelector(selectItems);
   const { data: session } = useSession();
   const total = useSelector(selectTotal);
+
+  const checkout_sessions = async () => {
+    const stripe = await stripePromise;
+    const checkoutSessions = await axios.post('/api/checkout_sessions', {
+      items: items,
+      email: session.user.id,
+    });
+    const result = await stripe.redirectToCheckout({
+      sessionId: checkoutSessions.data.id,
+    });
+    result.error && alert(result.error.message);
+  };
   return (
     <div className="bg-gray-100 h-screen">
       <Head>
@@ -22,7 +37,7 @@ function checkout() {
       </Head>
       <Header />
       <div className="bg-white pb-3">
-        <h1 className="font-semibold text-sm sm:text-lg text-gray-400 ml-7 pt-5">
+        <h1 className="font-semibold text-md sm:text-lg text-gray-500 border-b pl-8 pb-3 mt-3">
           {items?.length === 0
             ? 'Your Shopping Basket Is Empty.'
             : 'Your Shopping Cart.'}
@@ -43,22 +58,21 @@ function checkout() {
       <div>
         {items?.length > 0 && (
           <>
-            <p className="mt-5 ml-5 font-semibold text-gray-500">
-              {items.length} : items
-            </p>
-            <div className="flex items-center space-x-3 ml-3">
-              <h2 className="font-semibold md:text-xl text-md">
-                (Subtotal
+            <div className="flex items-center space-x-3 ml-8 mt-5">
+              <p className="">{items.length} : items</p>
+              <h2 className="md:text-xl text-md">
+                (SUBTOTAL __
                 <ReactCurrencyFormatter quantity={total} currency="USD" />)
               </h2>
-              <button
-                className={`button px-10 py-3 ${
-                  !session && 'text-white bg-gray-500'
-                }`}
-              >
-                {!session ? 'Sign in to checkout' : 'proceed to checkout'}
-              </button>
             </div>
+            <button
+              onClick={checkout_sessions}
+              className={`bg-yellow-300 ml-8 mt-3 px-8 py-1 font-semibold rounded-md ${
+                !session && 'text-white bg-gray-500'
+              }`}
+            >
+              {!session ? 'Sign in to checkout' : 'proceed to checkout'}
+            </button>
           </>
         )}
       </div>

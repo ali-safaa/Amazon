@@ -1,9 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit';
-
 const initialState = {
   items:
     typeof window !== 'undefined'
-      ? JSON.parse(localStorage.getItem('cart') || '[]')
+      ? JSON.parse(localStorage.getItem('items') || '[]')
       : null,
 };
 
@@ -14,7 +13,7 @@ export const basketSlice = createSlice({
     // actions
     addToBasket: (state, action) => {
       state.items = [...state.items, action.payload];
-      localStorage.setItem('cart', JSON.stringify(state.items));
+      localStorage.setItem('items', JSON.stringify(state.items));
     },
     removeFromBasket: (state, action) => {
       const index = state.items.findIndex(
@@ -24,13 +23,13 @@ export const basketSlice = createSlice({
       if (index >= 0) {
         // the item remove from the basket.
         newBasket.splice(index, 1);
+        localStorage.setItem('items', JSON.stringify(newBasket));
       } else {
         console.warn(
           `cant remove product(id: ${action.payload.id} as is not in the basket)`
         );
       }
       state.items = newBasket;
-      localStorage.removeItem('cart');
     },
   },
 });

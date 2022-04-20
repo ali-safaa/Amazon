@@ -3,7 +3,6 @@ import Head from 'next/head';
 import Header from '../components/Header';
 import Banner from '../components/Banner';
 import ProductFeed from '../components/ProductFeed';
-import Script from '../components/script';
 export default function Home({ products }) {
   return (
     <div className="bg-gray-100">
@@ -17,7 +16,6 @@ export default function Home({ products }) {
       <Header />
       <Banner />
       <ProductFeed products={products} />
-      <Script />
     </div>
   );
 }

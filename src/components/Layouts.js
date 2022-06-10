@@ -5,7 +5,6 @@ function Layouts({ children }) {
     <div>
       <Header />
       {children}
-      hello
     </div>
   );
 }

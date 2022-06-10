@@ -3,6 +3,6 @@ module.exports = {
     domains: ['fakestoreapi.com'],
   },
   env: {
-    stripe_publice_key: process.env.STRIPE_PUBLICE_KEY,
+    stripe_public_key: process.env.STRIPE_PUBLIC_KEY,
   },
 };

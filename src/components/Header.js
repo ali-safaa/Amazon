@@ -28,7 +28,7 @@ function Header() {
             <i className="fas fa-search px-3 rounded-r py-2 bg-yellow-400 cursor-pointer text-white"></i>
           </div>
         </div>
-        <div onClick={() => router.push('/auth/signin')} className="text-white">
+        <div className="text-white">
           <p
             onClick={!session ? signIn : signOut}
             className="text-xs font-bold link"
